@@ -57,6 +57,8 @@ public class Robot
     public DcMotor bl;
     public DcMotor br;
 
+    public Servo testServo;
+
     // constants
     public static final double MID_SERVO       =  0.5 ;
 
@@ -93,8 +95,8 @@ public class Robot
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        //leftClaw  = hwMap.get(Servo.class, "left_hand");
-        //leftClaw.setPosition(MID_SERVO);
+        testServo  = hwMap.get(Servo.class, "test");
+        testServo.setPosition(MID_SERVO);
     }
 
     public void tankDrive(double left, double right) {
