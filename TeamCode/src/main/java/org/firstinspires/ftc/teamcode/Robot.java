@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * This is NOT an opmode.
@@ -61,7 +62,7 @@ public class Robot
 
     // constants
     public static final double MID_SERVO       =  0.5 ;
-
+    public static final double DRIVE_MULTIPLIER = 0.7 ;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -104,6 +105,18 @@ public class Robot
         bl.setPower(left);
         fr.setPower(right);
         br.setPower(right);
+    }
+
+    public void mecanumDrive(double x, double y, double turn) {
+        double flpower = y + x + turn;
+        double frpower = y - x - turn;
+        double blpower = y - x + turn;
+        double brpower = y + x - turn;
+
+        fl.setPower(Range.clip(flpower, -1.0, 1.0));
+        fr.setPower(Range.clip(frpower, -1.0, 1.0));
+        bl.setPower(Range.clip(blpower, -1.0, 1.0));
+        br.setPower(Range.clip(brpower, -1.0, 1.0));
     }
  }
 
