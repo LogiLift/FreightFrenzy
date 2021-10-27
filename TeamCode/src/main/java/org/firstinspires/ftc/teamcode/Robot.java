@@ -64,7 +64,7 @@ public class Robot
 
     // constants
     public static final double MID_SERVO       =  0.5 ;
-    public static final double DRIVE_MULTIPLIER = 0.7 ;
+    public static final double DRIVE_MULTIPLIER = 0.601 ;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -85,7 +85,7 @@ public class Robot
         fr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         bl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         br.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        sc.setDirection(DcMotorSimple.Direction.REVERSE);
+        sc.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         fl.setPower(0);
@@ -113,10 +113,10 @@ public class Robot
     }
 
     public void mecanumDrive(double x, double y, double turn) {
-        double flpower = y + x + turn;
-        double frpower = y - x - turn;
-        double blpower = y - x + turn;
-        double brpower = y + x - turn;
+        double flpower = y + x - turn;
+        double frpower = y - x + turn;
+        double blpower = y - x - turn;
+        double brpower = y + x + turn;
 
         fl.setPower(Range.clip(flpower, -1.0, 1.0));
         fr.setPower(Range.clip(frpower, -1.0, 1.0));

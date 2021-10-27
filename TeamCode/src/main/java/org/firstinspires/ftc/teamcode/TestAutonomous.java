@@ -67,7 +67,7 @@ public class TestAutonomous extends LinearOpMode {
         runtime.reset();
 
         robot.mecanumDrive(0, 0.5, 0);
-        sleep(5*1000);
+        sleep(3*1000);
         robot.mecanumDrive(0, 0, 0);
     }
 }

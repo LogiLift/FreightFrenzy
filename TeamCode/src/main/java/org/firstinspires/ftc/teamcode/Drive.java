@@ -71,9 +71,9 @@ public class Drive extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-           double x = gamepad1.right_stick_x * Robot.DRIVE_MULTIPLIER;
-           double y = gamepad1.right_stick_y * Robot.DRIVE_MULTIPLIER;
-           double turn = gamepad1.left_stick_x * Robot.DRIVE_MULTIPLIER;
+           double x = Math.pow(gamepad1.left_stick_x,1) * Robot.DRIVE_MULTIPLIER;
+           double y = Math.pow(gamepad1.left_stick_y,1)* Robot.DRIVE_MULTIPLIER;
+           double turn = Math.pow(gamepad1.right_stick_x,1) * Robot.DRIVE_MULTIPLIER;
 
 
             // Tank Mode uses one stick to control each wheel.
