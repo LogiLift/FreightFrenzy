@@ -75,6 +75,7 @@ public class Drive extends LinearOpMode {
            double y = gamepad1.right_stick_y * Robot.DRIVE_MULTIPLIER;
            double turn = gamepad1.left_stick_x * Robot.DRIVE_MULTIPLIER;
 
+
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
@@ -82,7 +83,7 @@ public class Drive extends LinearOpMode {
 
             // Send calculated power to wheels
             robot.mecanumDrive(x, y, turn);
-
+            robot.sc.setPower(gamepad1.right_trigger);
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 

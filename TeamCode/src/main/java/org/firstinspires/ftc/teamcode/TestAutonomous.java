@@ -66,12 +66,8 @@ public class TestAutonomous extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            robot.testServo.setPosition(0.0);
-            sleep(2000);
-            robot.testServo.setPosition(0.5);
-            sleep(2000);
-        }
+        robot.mecanumDrive(0, 0.5, 0);
+        sleep(5*1000);
+        robot.mecanumDrive(0, 0, 0);
     }
 }
