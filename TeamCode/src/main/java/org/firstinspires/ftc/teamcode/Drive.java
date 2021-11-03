@@ -81,9 +81,11 @@ public class Drive extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
+            double triggerMultiplier = 1 - (gamepad1.right_trigger) * 0.7;
+
             // Send calculated power to wheels
-            robot.mecanumDrive(x, y, turn);
-            robot.sc.setPower(gamepad1.right_trigger);
+            robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
+            robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 
