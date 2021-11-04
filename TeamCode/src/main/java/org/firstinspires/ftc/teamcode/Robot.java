@@ -64,7 +64,7 @@ public class Robot
 
     // constants
     public static final double MID_SERVO       =  0.5 ;
-    public static final double DRIVE_MULTIPLIER = 0.8001 ;
+    public static final double DRIVE_MULTIPLIER = 1.0 ;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();

@@ -68,12 +68,32 @@ public class Drive extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        int lastflposition = robot.fl.getCurrentPosition();
+        int lastfrposition = robot.fr.getCurrentPosition();
+        int lastblposition = robot.bl.getCurrentPosition();
+        int lastbrposition = robot.br.getCurrentPosition();
+
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
            double x = Math.pow(gamepad1.left_stick_x,1) * Robot.DRIVE_MULTIPLIER;
-           double y = Math.pow(gamepad1.left_stick_y,1)* Robot.DRIVE_MULTIPLIER;
+           double y = Math.pow(gamepad1.left_stick_y,1) * Robot.DRIVE_MULTIPLIER;
            double turn = Math.pow(gamepad1.right_stick_x,1) * Robot.DRIVE_MULTIPLIER;
+
+           telemetry.addData("fl position", robot.fl.getCurrentPosition());
+           telemetry.addData("fl last pos", lastflposition);
+            telemetry.addData("runtime", runtime.milliseconds());
+            double flspeed = (double)(robot.fl.getCurrentPosition() - lastflposition)/runtime.milliseconds();
+            double frspeed = (double)(robot.fr.getCurrentPosition() - lastfrposition)/runtime.milliseconds();
+            double blspeed = (double)(robot.bl.getCurrentPosition() - lastblposition)/runtime.milliseconds();
+            double brspeed = (double)(robot.br.getCurrentPosition() - lastbrposition)/runtime.milliseconds();
+            runtime.reset();
+
+            lastflposition = robot.fl.getCurrentPosition();
+            lastfrposition = robot.fr.getCurrentPosition();
+            lastblposition = robot.bl.getCurrentPosition();
+            lastbrposition = robot.br.getCurrentPosition();
 
 
             // Tank Mode uses one stick to control each wheel.
@@ -81,7 +101,14 @@ public class Drive extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
-            double triggerMultiplier = 1 - (gamepad1.right_trigger) * 0.7;
+            double triggerMultiplier = 1.0 - (gamepad1.right_trigger * 0.95);
+            telemetry.addData("trigger multiplier", triggerMultiplier);
+
+            telemetry.addData("flspeed",flspeed);
+            telemetry.addData("frspeed",frspeed);
+            telemetry.addData("blspeed",blspeed);
+            telemetry.addData("brspeed",brspeed);
+
 
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
