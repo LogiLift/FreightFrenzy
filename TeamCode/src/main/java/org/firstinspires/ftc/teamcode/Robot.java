@@ -60,6 +60,7 @@ public class Robot
     public DcMotor br;
     //sc is spin carousel//
     public DcMotor sc;
+    public DcMotor arm;
     public Servo testServo;
 
     // constants
@@ -80,12 +81,14 @@ public class Robot
         bl  = hwMap.get(DcMotor.class, "bl");
         br  = hwMap.get(DcMotor.class, "br");
         sc  = hwMap.get(DcMotor.class,"sc");
+        arm  = hwMap.get(DcMotor.class,"arm");
 
         fl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         fr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         bl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         br.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         sc.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         fl.setPower(0);
@@ -93,6 +96,7 @@ public class Robot
         bl.setPower(0);
         br.setPower(0);
         sc.setPower(0);
+        arm.setPower(0);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -100,16 +104,10 @@ public class Robot
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sc.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // Define and initialize ALL installed servos.
         testServo  = hwMap.get(Servo.class, "test");
         testServo.setPosition(MID_SERVO);
-    }
-
-    public void tankDrive(double left, double right) {
-        fl.setPower(left);
-        bl.setPower(left);
-        fr.setPower(right);
-        br.setPower(right);
     }
 
     public void mecanumDrive(double x, double y, double turn) {
