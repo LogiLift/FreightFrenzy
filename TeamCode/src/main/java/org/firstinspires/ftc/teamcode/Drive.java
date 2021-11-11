@@ -61,6 +61,27 @@ public class Drive extends LinearOpMode {
     public void runOpMode() {
         robot = new Robot(hardwareMap);
 
+        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
+        // first.
+        robot.initVuforia();
+        robot.initTfod();
+
+        /**
+         * Activate TensorFlow Object Detection before we wait for the start command.
+         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
+         **/
+        if (robot.tfod != null) {
+            robot.tfod.activate();
+
+            // The TensorFlow software will scale the input images from the camera to a lower resolution.
+            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
+            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
+            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
+            // should be set to the value of the images used to create the TensorFlow Object Detection model
+            // (typically 16/9).
+            robot.tfod.setZoom(2.5, 16.0/9.0);
+        }
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -75,15 +96,13 @@ public class Drive extends LinearOpMode {
 
 
         // run until the end of the match (driver presses STOP)
+
         while (opModeIsActive()) {
 
            double x = Math.pow(gamepad1.left_stick_x,1) * Robot.DRIVE_MULTIPLIER;
            double y = Math.pow(gamepad1.left_stick_y,1) * Robot.DRIVE_MULTIPLIER;
            double turn = Math.pow(gamepad1.right_stick_x,1) * Robot.DRIVE_MULTIPLIER;
 
-           telemetry.addData("fl position", robot.fl.getCurrentPosition());
-           telemetry.addData("fl last pos", lastflposition);
-            telemetry.addData("runtime", runtime.milliseconds());
             double flspeed = (double)(robot.fl.getCurrentPosition() - lastflposition)/runtime.milliseconds();
             double frspeed = (double)(robot.fr.getCurrentPosition() - lastfrposition)/runtime.milliseconds();
             double blspeed = (double)(robot.bl.getCurrentPosition() - lastblposition)/runtime.milliseconds();
@@ -102,22 +121,32 @@ public class Drive extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             double triggerMultiplier = 1.0 - (gamepad1.right_trigger * 0.95);
-            telemetry.addData("trigger multiplier", triggerMultiplier);
-
-            telemetry.addData("flspeed",flspeed);
-            telemetry.addData("frspeed",frspeed);
-            telemetry.addData("blspeed",blspeed);
-            telemetry.addData("brspeed",brspeed);
-
 
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
             robot.arm.setPower(gamepad1.dpad_up - gamepad1.dpad_down);
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-            telemetry.update();
+            if (robot.tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = robot.tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    // step through the list of recognitions and display boundary info.
+                    int i = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                recognition.getLeft(), recognition.getTop());
+                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                recognition.getRight(), recognition.getBottom());
+                        i++;
+                    }
+                    telemetry.update();
+                }
+            }
         }
     }
 }
