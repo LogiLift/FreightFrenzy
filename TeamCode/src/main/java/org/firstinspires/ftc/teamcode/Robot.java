@@ -103,8 +103,7 @@ public class Robot
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    public static final String VUFORIA_KEY =
-            "AYLmo+H/////AAABmTKAeUX770x1h/TWHne+dMF7gYZUCUCZKFbTtjmAE84hqdXc4Bi8byppgOtCfv88rIH98SLqNB7kQ40K2tFIZCrML9qFOfpvUx26jkoP9nkVOr7Svpx+ymeaUJ9KGUEgtF1uLz01qK51DW8J661zXnKJmnGTwEFjF+dLc5HfMMsHK48LytYtd6B0ezhc16WqoNlTLa/a59r0+jAL81xabV3vH9/Ny9R+0Hne/gcCyqLdN9JAM7QuJOAh/W9nFebTE1rXHXWs4KuMGk31ZaNHSY43SNLkj+apJEca/ae/pGVA0D4LRaRBWd3ODv9wAgARGx4KEJcJ++vLb5LcyLr2A4C2suvPbrPpC/UDN/Q+6709";
+    public static final String VUFORIA_KEY = "AYuKWKT/////AAABmZRqQXYKKUfFkp0LR9yBIxdqZac8vV29i2RSdZ8S17X/DFYb7PcsPhLMLPuB2K3YjHIfZ9qWTUfl5gaGHf3QUa03VxwC/bF2t76YFt4mJ5enSrjK8YE8xy1mVEtUOXPfA7FkhgceHf53cIozVZ6EQd+f1ulcZpOqW2Hkk8Y+xj5LT7ZbvVCZLjzLz558RhTk9gWdPlEYdMiSFI5PMlWd+Z9+CQqtWL+XP39hAkHY0LeBeNhv0KSEc5o6bjoiypeh9bvcZkaEDUznP1odbppRxjdceq2S0GQ77bYNc5Ta4Px8NaA67WF7gfgikFRKnYeSR36FarGBeNKfQhCPcmSjRdtJ5MRdQoauf3tarCgyuFnu";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -134,7 +133,7 @@ public class Robot
         br  = hwMap.get(DcMotor.class, "br");
         sc  = hwMap.get(DcMotor.class,"sc");
         arm  = hwMap.get(DcMotor.class,"arm");
-        eyes = hwMap.get(WebcamName.class, "Eyes");
+        eyes = hwMap.get(WebcamName.class, "eyes");
 
         fl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         fr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
