@@ -83,7 +83,7 @@ public class Drive extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            robot.tfod.setZoom(2.5, 16.0/9.0);
+            robot.tfod.setZoom(1.5, 16.0/9.0);
         }
 
         telemetry.addData("Status", "Initialized");
