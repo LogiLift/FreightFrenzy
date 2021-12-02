@@ -115,7 +115,7 @@ public class Drive extends LinearOpMode {
 
             lastflposition = robot.fl.getCurrentPosition();
             lastfrposition = robot.fr.getCurrentPosition();
-            lastblposition = robot.bl.getCurrentPosition();
+            lastblposition = robot.bl.getCurrentPosition();2
             lastbrposition = robot.br.getCurrentPosition();
 
 
@@ -125,11 +125,13 @@ public class Drive extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             double triggerMultiplier = 1.0 - (gamepad1.right_trigger * 0.95);
+            double grip = 0.0 +(gamepad1.left_trigger * 0.99);
 
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
+            robot.testServo.setPosition(grip);
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
-            robot.arm.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.5);
+            robot.arm.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
             // Show the elapsed game time and wheel power.
 
             if (robot.tfod != null) {
