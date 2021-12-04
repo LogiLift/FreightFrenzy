@@ -67,14 +67,14 @@ public class Drive extends LinearOpMode {
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
-        robot.initVuforia();
-        robot.initTfod();
+        //robot.initVuforia();
+       // robot.initTfod();
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
-        if (robot.tfod != null) {
+        /**if (robot.tfod != null) {
             robot.tfod.activate();
 
             // The TensorFlow software will scale the input images from the camera to a lower resolution.
@@ -85,7 +85,7 @@ public class Drive extends LinearOpMode {
             // (typically 16/9).
             robot.tfod.setZoom(1.5, 16.0/9.0);
         }
-
+*/
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -115,7 +115,7 @@ public class Drive extends LinearOpMode {
 
             lastflposition = robot.fl.getCurrentPosition();
             lastfrposition = robot.fr.getCurrentPosition();
-            lastblposition = robot.bl.getCurrentPosition();2
+            lastblposition = robot.bl.getCurrentPosition();
             lastbrposition = robot.br.getCurrentPosition();
 
 
@@ -134,7 +134,7 @@ public class Drive extends LinearOpMode {
             robot.arm.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
             // Show the elapsed game time and wheel power.
 
-            if (robot.tfod != null) {
+          /*  if (robot.tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = robot.tfod.getUpdatedRecognitions();
@@ -151,8 +151,10 @@ public class Drive extends LinearOpMode {
                         i++;
                     }
                     telemetry.update();
+
+
                 }
-            }
+            }*/
         }
     }
 }

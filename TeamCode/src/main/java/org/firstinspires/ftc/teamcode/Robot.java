@@ -134,7 +134,7 @@ public class Robot
         br  = hwMap.get(DcMotor.class, "br");
         sc  = hwMap.get(DcMotor.class,"sc");
         arm  = hwMap.get(DcMotor.class,"arm");
-        eyes = hwMap.get(WebcamName.class, "Eyes");
+        //eyes = hwMap.get(WebcamName.class, "Eyes");
 
         fl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         fr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
