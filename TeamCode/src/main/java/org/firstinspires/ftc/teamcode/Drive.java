@@ -97,7 +97,7 @@ public class Drive extends LinearOpMode {
         int lastfrposition = robot.fr.getCurrentPosition();
         int lastblposition = robot.bl.getCurrentPosition();
         int lastbrposition = robot.br.getCurrentPosition();
-
+        float clamper = 0.0f;
 
         // run until the end of the match (driver presses STOP)
 
@@ -125,13 +125,25 @@ public class Drive extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             double triggerMultiplier = 1.0 - (gamepad1.right_trigger * 0.95);
-            double grip = 0.0 +(gamepad1.left_trigger * 0.99);
+            double grip = (gamepad1.left_trigger * 0.99);
 
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
             robot.testServo.setPosition(grip);
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
-            robot.arm.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
+            robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
+            robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
+            if (gamepad1.left_trigger != 0){
+                robot.lgrabber.setPosition(clamper);
+                robot.rgrabber.setPosition(-clamper);
+                clamper += 0.05;
+
+            }
+            else {
+                clamper = 0;
+                robot.lgrabber.setPosition(0);
+                robot.rgrabber.setPosition(0);
+            }
             // Show the elapsed game time and wheel power.
 
           /*  if (robot.tfod != null) {

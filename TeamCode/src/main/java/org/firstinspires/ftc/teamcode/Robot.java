@@ -65,7 +65,10 @@ public class Robot
     public DcMotor br;
     //sc is spin carousel//
     public DcMotor sc;
-    public DcMotor arm;
+    public DcMotor arm1;
+    public DcMotor armb;
+    public Servo lgrabber;
+    public Servo rgrabber;
     public Servo testServo;
     public WebcamName eyes;
 
@@ -133,7 +136,10 @@ public class Robot
         bl  = hwMap.get(DcMotor.class, "bl");
         br  = hwMap.get(DcMotor.class, "br");
         sc  = hwMap.get(DcMotor.class,"sc");
-        arm  = hwMap.get(DcMotor.class,"arm");
+        arm1  = hwMap.get(DcMotor.class,"arm1");
+        armb  = hwMap.get(DcMotor.class,"armb");
+        lgrabber = hwMap.get(Servo.class,"lgrabber");
+        rgrabber = hwMap.get(Servo.class,"rgrabber");
         //eyes = hwMap.get(WebcamName.class, "Eyes");
 
         fl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -141,7 +147,11 @@ public class Robot
         bl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         br.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         sc.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        arm1.setDirection(DcMotor.Direction.FORWARD);
+        armb.setDirection(DcMotor.Direction.FORWARD);
+        lgrabber.setDirection(Servo.Direction.FORWARD);
+        rgrabber.setDirection(Servo.Direction.REVERSE);
+
 
         // Set all motors to zero power
         fl.setPower(0);
@@ -149,7 +159,8 @@ public class Robot
         bl.setPower(0);
         br.setPower(0);
         sc.setPower(0);
-        arm.setPower(0);
+        arm1.setPower(0);
+        armb.setPower(0);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -157,7 +168,8 @@ public class Robot
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sc.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // Define and initialize ALL installed servos.
         testServo  = hwMap.get(Servo.class, "test");
         testServo.setPosition(MID_SERVO);
