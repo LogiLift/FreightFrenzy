@@ -97,7 +97,10 @@ public class Drive extends LinearOpMode {
         int lastfrposition = robot.fr.getCurrentPosition();
         int lastblposition = robot.bl.getCurrentPosition();
         int lastbrposition = robot.br.getCurrentPosition();
-        float clamper = 0.0f;
+        int armTargetPos = 0;
+
+        robot.arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.armb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // run until the end of the match (driver presses STOP)
 
@@ -131,16 +134,23 @@ public class Drive extends LinearOpMode {
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
             robot.testServo.setPosition(grip);
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
-            robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
-            robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.25);
-            if (gamepad1.left_trigger != 0){
-                robot.lgrabber.setPosition(clamper);
-                robot.rgrabber.setPosition(-clamper);
-                clamper += 0.05;
+            robot.arm1.setPower(1);
+            robot.armb.setPower(-1);
+            armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
+            robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm1.setTargetPosition(armTargetPos);
+            robot.armb.setTargetPosition(armTargetPos);
+            telemetry.addData("target position",armTargetPos);
+            telemetry.addData("letter 1 pos", robot.arm1.getCurrentPosition());
+            telemetry.addData("number b pos", robot.armb.getCurrentPosition());
+            telemetry.update();
+            if (gamepad1.left_trigger > 0.2){
+                robot.lgrabber.setPosition(0.45);
+                robot.rgrabber.setPosition(0.55);
 
             }
             else {
-                clamper = 0;
                 robot.lgrabber.setPosition(0);
                 robot.rgrabber.setPosition(0);
             }
