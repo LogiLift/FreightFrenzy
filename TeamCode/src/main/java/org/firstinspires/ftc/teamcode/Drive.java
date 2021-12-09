@@ -67,14 +67,14 @@ public class Drive extends LinearOpMode {
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
-        robot.initVuforia();
-        robot.initTfod();
+        //robot.initVuforia();
+       // robot.initTfod();
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
-        if (robot.tfod != null) {
+        /**if (robot.tfod != null) {
             robot.tfod.activate();
 
             // The TensorFlow software will scale the input images from the camera to a lower resolution.
@@ -83,9 +83,9 @@ public class Drive extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            robot.tfod.setZoom(2.5, 16.0/9.0);
+            robot.tfod.setZoom(1.5, 16.0/9.0);
         }
-
+*/
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -97,7 +97,10 @@ public class Drive extends LinearOpMode {
         int lastfrposition = robot.fr.getCurrentPosition();
         int lastblposition = robot.bl.getCurrentPosition();
         int lastbrposition = robot.br.getCurrentPosition();
+        int armTargetPos = 0;
 
+        robot.arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.armb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // run until the end of the match (driver presses STOP)
 
@@ -125,14 +128,35 @@ public class Drive extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             double triggerMultiplier = 1.0 - (gamepad1.right_trigger * 0.95);
+            double grip = (gamepad1.left_trigger * 0.99);
 
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
+            robot.testServo.setPosition(grip);
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
-            robot.arm.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0))*0.5);
+            robot.arm1.setPower(1);
+            robot.armb.setPower(-1);
+            armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
+            robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm1.setTargetPosition(armTargetPos);
+            robot.armb.setTargetPosition(armTargetPos);
+            telemetry.addData("target position",armTargetPos);
+            telemetry.addData("letter 1 pos", robot.arm1.getCurrentPosition());
+            telemetry.addData("number b pos", robot.armb.getCurrentPosition());
+            telemetry.update();
+            if (gamepad1.left_trigger > 0.2){
+                robot.lgrabber.setPosition(0.45);
+                robot.rgrabber.setPosition(0.55);
+
+            }
+            else {
+                robot.lgrabber.setPosition(0);
+                robot.rgrabber.setPosition(0);
+            }
             // Show the elapsed game time and wheel power.
 
-            if (robot.tfod != null) {
+          /*  if (robot.tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = robot.tfod.getUpdatedRecognitions();
@@ -149,8 +173,10 @@ public class Drive extends LinearOpMode {
                         i++;
                     }
                     telemetry.update();
+
+
                 }
-            }
+            }*/
         }
     }
 }
