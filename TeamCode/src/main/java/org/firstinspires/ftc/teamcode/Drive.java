@@ -136,11 +136,13 @@ public class Drive extends LinearOpMode {
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
             robot.arm1.setPower(1);
             robot.armb.setPower(-1);
-            armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
-            robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm1.setTargetPosition(armTargetPos);
-            robot.armb.setTargetPosition(armTargetPos);
+    //        armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
+        //    robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //    robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
+            robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
+          //  robot.arm1.setTargetPosition(armTargetPos);
+          //  robot.armb.setTargetPosition(armTargetPos);
             telemetry.addData("target position",armTargetPos);
             telemetry.addData("letter 1 pos", robot.arm1.getCurrentPosition());
             telemetry.addData("number b pos", robot.armb.getCurrentPosition());

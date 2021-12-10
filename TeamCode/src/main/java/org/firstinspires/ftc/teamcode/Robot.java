@@ -70,7 +70,7 @@ public class Robot
     public WebcamName eyes;
 
     // constants
-    public static final double MID_SERVO       =  0.5 ;
+    public static final double MID_SERVO        =  0.5 ;
     public static final double DRIVE_MULTIPLIER = 1.0 ;
     /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
      * the following 4 detectable objects
