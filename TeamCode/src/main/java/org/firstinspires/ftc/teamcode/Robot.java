@@ -106,6 +106,7 @@ public class Robot
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
+    // idk lol
     public static final String VUFORIA_KEY =
             "AYLmo+H/////AAABmTKAeUX770x1h/TWHne+dMF7gYZUCUCZKFbTtjmAE84hqdXc4Bi8byppgOtCfv88rIH98SLqNB7kQ40K2tFIZCrML9qFOfpvUx26jkoP9nkVOr7Svpx+ymeaUJ9KGUEgtF1uLz01qK51DW8J661zXnKJmnGTwEFjF+dLc5HfMMsHK48LytYtd6B0ezhc16WqoNlTLa/a59r0+jAL81xabV3vH9/Ny9R+0Hne/gcCyqLdN9JAM7QuJOAh/W9nFebTE1rXHXWs4KuMGk31ZaNHSY43SNLkj+apJEca/ae/pGVA0D4LRaRBWd3ODv9wAgARGx4KEJcJ++vLb5LcyLr2A4C2suvPbrPpC/UDN/Q+6709";
 
