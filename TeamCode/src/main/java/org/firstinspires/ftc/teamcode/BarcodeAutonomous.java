@@ -31,6 +31,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -74,7 +76,13 @@ public class BarcodeAutonomous extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-
+        initWebcam();
+        while (Pipeline.broIFinishedPlsHelpMe < 10){
+            telemetry.addData("bro I finished pls help me", Pipeline.broIFinishedPlsHelpMe);
+            telemetry.update();
+        }
+        webcam.stopStreaming();
+        telemetry.addData("total", Pipeline.total);
 
     }
 
@@ -87,17 +95,38 @@ public class BarcodeAutonomous extends LinearOpMode {
         webcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
 
     }
+
 }
 class Pipeline extends OpenCvPipeline{
+    public static double[] total = {0.0, 0.0, 0.0};
+    public static int broIFinishedPlsHelpMe = 0;
+    public static BarcodeAutonomous lom = new BarcodeAutonomous();
+
     @Override
     public Mat processFrame(Mat input) {
-        Imgproc.rectangle(input, new Point(0, 100), new Point(input.width(), input.height() - 100), new Scalar(0, 255, 0), 4);
+        //Imgproc.rectangle(input, new Point(0, 0), new Point(input.width(), input.height() + 0), new Scalar(0, 255, 0), 4);
+
+        lom.telemetry.addData("does input exist", input == null);
+        lom.telemetry.update();
+
+        if (input == null) {
+            return input;
+        }
+        if (broIFinishedPlsHelpMe == 10){
+            return input;
+        }
         for (int pos = 0; pos < 3; pos ++){
             int startx = (input.width()/3) * pos;
             for (int x = startx; x < startx + input.width()/3; x++){
                 for (int y = 0; y < input.height(); y++){
+                    double[] pixel = input.get(x, y);
+                    double green = pixel[1] + (1 - pixel[0]) + (1 - pixel[2]);
+                    total[pos] += green;
                 }
             }
         }
+
+        broIFinishedPlsHelpMe ++;
+        return input;
     }
 }
