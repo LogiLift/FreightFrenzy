@@ -148,8 +148,8 @@ public class Drive extends LinearOpMode {
             robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
 
             // clamp the arm position between 2 points
-            if(armTargetPos < 144){
-                armTargetPos = 144;
+            if(armTargetPos < 106){
+                armTargetPos = 106;
             }
             if(armTargetPos > 0){
                 armTargetPos = 0;
@@ -165,7 +165,7 @@ public class Drive extends LinearOpMode {
             }
 
             robot.arm1.setTargetPosition(armTargetPos);
-            robot.armb.setTargetPosition(armTargetPos);
+            robot.armb.setTargetPosition(armTargetPos * -1);
 
             telemetry.addData("target position",armTargetPos);
             telemetry.addData("letter 1 sop", robot.arm1.getCurrentPosition());
