@@ -147,11 +147,28 @@ public class Drive extends LinearOpMode {
             robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
             robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
 
+            // clamp the arm position between 2 points
+            if(armTargetPos < 144){
+                armTargetPos = 144;
+            }
+            if(armTargetPos > 0){
+                armTargetPos = 0;
+            }
+
+            // presets for arm
+
+            if(gamepad1.a){
+                armTargetPos = 0;
+            }
+            if(gamepad1.b){
+                armTargetPos = 104;
+            }
+
             robot.arm1.setTargetPosition(armTargetPos);
             robot.armb.setTargetPosition(armTargetPos);
 
             telemetry.addData("target position",armTargetPos);
-            telemetry.addData("letter 1 pos", robot.arm1.getCurrentPosition());
+            telemetry.addData("letter 1 sop", robot.arm1.getCurrentPosition());
             telemetry.addData("number b pos", robot.armb.getCurrentPosition());
             telemetry.update();
 
@@ -164,6 +181,7 @@ public class Drive extends LinearOpMode {
                 robot.lgrabber.setPosition(0);
                 robot.rgrabber.setPosition(0);
             }
+
             // Show the elapsed game time and wheel power.
 
           /*  if (robot.tfod != null) {

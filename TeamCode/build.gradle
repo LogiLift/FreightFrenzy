@@ -17,7 +17,7 @@ apply from: '../build.dependencies.gradle'
 
 android {
     androidResources {
-        noCompress 'tflite'
+        noCompress 'tflite'f
     }
 }
 
