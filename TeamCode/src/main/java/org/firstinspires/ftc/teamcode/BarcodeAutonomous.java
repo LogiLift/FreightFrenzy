@@ -76,6 +76,7 @@ public class BarcodeAutonomous extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        Pipeline.telem = telemetry;
         initWebcam();
         while (Pipeline.broIFinishedPlsHelpMe < 10){
             telemetry.addData("bro I finished pls help me", Pipeline.broIFinishedPlsHelpMe);
@@ -101,13 +102,11 @@ class Pipeline extends OpenCvPipeline{
     public static double[] total = {0.0, 0.0, 0.0};
     public static int broIFinishedPlsHelpMe = 0;
     public static BarcodeAutonomous lom = new BarcodeAutonomous();
+    public static Telemetry telem;
 
     @Override
     public Mat processFrame(Mat input) {
         //Imgproc.rectangle(input, new Point(0, 0), new Point(input.width(), input.height() + 0), new Scalar(0, 255, 0), 4);
-
-        lom.telemetry.addData("does input exist", input == null);
-        lom.telemetry.update();
 
         if (input == null) {
             return input;
@@ -122,6 +121,9 @@ class Pipeline extends OpenCvPipeline{
                     double[] pixel = input.get(x, y);
                     double green = pixel[1] + (1 - pixel[0]) + (1 - pixel[2]);
                     total[pos] += green;
+                    telem.addData("total is null",total == null);
+                    telem.addData("pixel is null",pixel == null);
+                    telem.update();
                 }
             }
         }

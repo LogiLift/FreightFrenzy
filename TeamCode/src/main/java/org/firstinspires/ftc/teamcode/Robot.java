@@ -49,7 +49,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
  * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
  *
  * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
+ * Note:  All names are lower case and some have sing4le spaces between words.
  *
  * motor "fl" (front left wheel)
  * motor "fr" (front right wheel)
