@@ -165,10 +165,10 @@ public class Drive extends LinearOpMode {
             }
 
             robot.arm1.setTargetPosition(armTargetPos);
-            robot.armb.setTargetPosition(armTargetPos * -1);
+            robot.armb.setTargetPosition(-1 * armTargetPos);
 
             telemetry.addData("target position",armTargetPos);
-            telemetry.addData("letter 1 sop", robot.arm1.getCurrentPosition());
+            telemetry.addData("letter 1 pos", robot.arm1.getCurrentPosition());
             telemetry.addData("number b pos", robot.armb.getCurrentPosition());
             telemetry.update();
 
