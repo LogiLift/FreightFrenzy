@@ -29,9 +29,19 @@
 
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
 /**
@@ -47,13 +57,14 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 //idk lol
-@TeleOp(name="Test Auto", group="Linear Opmode")
+@Autonomous(name="Barcode", group="Linear Opmode")
 //@Disabled
-public class TestAutonomous extends LinearOpMode {
+public class BarcodeAutonomous extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private Robot robot;
+    private OpenCvWebcam webcam;
 
     @Override
     public void runOpMode() {
@@ -65,20 +76,59 @@ public class TestAutonomous extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        Pipeline.telem = telemetry;
+        initWebcam();
+        while (Pipeline.broIFinishedPlsHelpMe < 10){
+            telemetry.addData("bro I finished pls help me", Pipeline.broIFinishedPlsHelpMe);
+            telemetry.update();
+        }
+        webcam.stopStreaming();
+        telemetry.addData("total", Pipeline.total);
 
-        /* robot.mecanumDrive(0, -0.5, 0);
-        sleep(500);
-        robot.mecanumDrive(0, 0, 0);
+    }
 
-        robot.sc.setPower(1);
-        sleep(10*1000);
-        robot.sc.setPower(0); */
+    private void initWebcam() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        robot.mecanumDrive(0, -0.5, 0);
-        sleep(3000);
-        robot.mecanumDrive(0, 0, 0);
+        webcam.openCameraDevice();
+        webcam.setPipeline(new Pipeline());
+        webcam.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
 
+    }
 
+}
+class Pipeline extends OpenCvPipeline{
+    public static double[] total = {0.0, 0.0, 0.0};
+    public static int broIFinishedPlsHelpMe = 0;
+    public static BarcodeAutonomous lom = new BarcodeAutonomous();
+    public static Telemetry telem;
 
+    @Override
+    public Mat processFrame(Mat input) {
+        //Imgproc.rectangle(input, new Point(0, 0), new Point(input.width(), input.height() + 0), new Scalar(0, 255, 0), 4);
+
+        if (input == null) {
+            return input;
+        }
+        if (broIFinishedPlsHelpMe == 10){
+            return input;
+        }
+        for (int pos = 0; pos < 3; pos ++){
+            int startx = (input.width()/3) * pos;
+            for (int x = startx; x < startx + input.width()/3; x++){
+                for (int y = 0; y < input.height(); y++){
+                    double[] pixel = input.get(x, y);
+                    double green = pixel[1] + (1 - pixel[0]) + (1 - pixel[2]);
+                    total[pos] += green;
+                    telem.addData("total is null",total == null);
+                    telem.addData("pixel is null",pixel == null);
+                    telem.update();
+                }
+            }
+        }
+
+        broIFinishedPlsHelpMe ++;
+        return input;
     }
 }
