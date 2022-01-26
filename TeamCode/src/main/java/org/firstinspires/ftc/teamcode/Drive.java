@@ -68,24 +68,23 @@ public class Drive extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         //robot.initVuforia();
-       // robot.initTfod();
+        // robot.initTfod();
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
         /**if (robot.tfod != null) {
-            robot.tfod.activate();
-
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-            robot.tfod.setZoom(1.5, 16.0/9.0);
-        }
-*/
+         robot.tfod.activate();
+         // The TensorFlow software will scale the input images from the camera to a lower resolution.
+         // This can result in lower detection accuracy at longer distances (> 55cm or 22").
+         // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
+         // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
+         // should be set to the value of the images used to create the TensorFlow Object Detection model
+         // (typically 16/9).
+         robot.tfod.setZoom(1.5, 16.0/9.0);
+         }
+         */
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -106,9 +105,9 @@ public class Drive extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-           double x = Math.pow(gamepad1.left_stick_x,1) * Robot.DRIVE_MULTIPLIER;
-           double y = Math.pow(gamepad1.left_stick_y,1) * Robot.DRIVE_MULTIPLIER;
-           double turn = Math.pow(gamepad1.right_stick_x,1) * Robot.DRIVE_MULTIPLIER;
+            double x = Math.pow(gamepad1.left_stick_x,1) * Robot.DRIVE_MULTIPLIER;
+            double y = Math.pow(gamepad1.left_stick_y,1) * Robot.DRIVE_MULTIPLIER;
+            double turn = Math.pow(gamepad1.right_stick_x,1) * Robot.DRIVE_MULTIPLIER;
 
             double flspeed = (double)(robot.fl.getCurrentPosition() - lastflposition)/runtime.milliseconds();
             double frspeed = (double)(robot.fr.getCurrentPosition() - lastfrposition)/runtime.milliseconds();
@@ -133,50 +132,47 @@ public class Drive extends LinearOpMode {
             // Send calculated power to wheels
             robot.mecanumDrive(x * triggerMultiplier, y * triggerMultiplier, turn * triggerMultiplier);
 
-            robot.testServo.setPosition(grip);
+            //robot.testServo.setPosition(grip);
 
-           // robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5)
-            robot.arm1.setPower(1);
-            robot.armb.setPower(-1);
-
-            armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
+            // robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5)
+            robot.arm1.setPower(0.1);
+            robot.armb.setPower(0.1);
 
             robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
-            robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
-
-            // clamp the arm position between 2 points
-            if(armTargetPos < 106){
-                armTargetPos = 106;
-            }
-            if(armTargetPos > 0){
-                armTargetPos = 0;
-            }
-
             // presets for arm
-
             if(gamepad1.a){
                 armTargetPos = 0;
             }
             if(gamepad1.b){
                 armTargetPos = 104;
             }
+            // clamp the arm target position
+            if(armTargetPos > 106){
+                armTargetPos = 106;
+            }
+            if(armTargetPos < 0) {
+                armTargetPos = 0;
+            }
 
-            robot.arm1.setTargetPosition(armTargetPos);
-            robot.armb.setTargetPosition(armTargetPos * -1);
+            // move the arm to the target position
+            robot.arm1.setTargetPosition(-armTargetPos);
+            robot.armb.setTargetPosition(-armTargetPos);
 
-            telemetry.addData("target position",armTargetPos);
-            telemetry.addData("letter 1 sop", robot.arm1.getCurrentPosition());
-            telemetry.addData("number b pos", robot.armb.getCurrentPosition());
+            // add telemetry for debugging
+            telemetry.addData("target position", armTargetPos);
+            telemetry.addData("letter 1 position", robot.arm1.getCurrentPosition());
+            telemetry.addData("number b position", robot.armb.getCurrentPosition());
             telemetry.update();
 
+            // close claw
             if (gamepad1.left_trigger > 0.2){
-                robot.lgrabber.setPosition(0.45);
+                robot.lgrabber.setPosition(0.55);
                 robot.rgrabber.setPosition(0.55);
 
             }
+            // open claw
             else {
                 robot.lgrabber.setPosition(0);
                 robot.rgrabber.setPosition(0);
@@ -201,8 +197,6 @@ public class Drive extends LinearOpMode {
                         i++;
                     }
                     telemetry.update();
-
-
                 }
             }*/
         }
