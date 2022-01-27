@@ -143,17 +143,17 @@ public class Drive extends LinearOpMode {
 
             // presets for arm
             if(gamepad1.a){
-                armTargetPos = 0;
+                armTargetPos--;
             }
             if(gamepad1.b){
-                armTargetPos = 104;
+                armTargetPos++;
             }
             // clamp the arm target position
-            if(armTargetPos > 106){
-                armTargetPos = 106;
+            if(armTargetPos > 20){
+                armTargetPos = 20;
             }
-            if(armTargetPos < 0) {
-                armTargetPos = 0;
+            if(armTargetPos < -150) {
+                armTargetPos = -150;
             }
 
             // move the arm to the target position
