@@ -64,12 +64,12 @@ public class Robot
     public DcMotor bl;
     public DcMotor br;
     //sc is spin carousel//
-   // public DcMotor sc;
+    // public DcMotor sc;
     public DcMotor arm1;
     public DcMotor armb;
     public Servo lgrabber;
     public Servo rgrabber;
-    public Servo testServo;
+    //public Servo testServo;
     public WebcamName eyes;
 
     // constants
@@ -136,7 +136,7 @@ public class Robot
         fr  = hwMap.get(DcMotor.class, "fr");
         bl  = hwMap.get(DcMotor.class, "bl");
         br  = hwMap.get(DcMotor.class, "br");
-       // sc  = hwMap.get(DcMotor.class,"sc");
+        // sc  = hwMap.get(DcMotor.class,"sc");
         arm1  = hwMap.get(DcMotor.class,"arm1");
         armb  = hwMap.get(DcMotor.class,"armb");
         lgrabber = hwMap.get(Servo.class,"lgrabber");
@@ -159,7 +159,7 @@ public class Robot
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
-       // sc.setPower(0);
+        // sc.setPower(0);
         arm1.setPower(0);
         armb.setPower(0);
         // Set all motors to run without encoders.
@@ -168,13 +168,12 @@ public class Robot
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-      //  sc.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //  sc.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // Define and initialize ALL installed servos.
-        testServo  = hwMap.get(Servo.class, "test");
-        testServo.setPosition(MID_SERVO);
-    }
+        /*testServo  = hwMap.get(Servo.class, "test");
+        testServo.setPosition(MID_SERVO);*/   }
 
     public void mecanumDrive(double x, double y, double turn) {
         double flpower = y + x - turn;
@@ -218,5 +217,4 @@ public class Robot
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
     }
- }
-
+}
