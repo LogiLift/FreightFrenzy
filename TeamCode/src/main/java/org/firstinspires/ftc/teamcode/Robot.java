@@ -64,7 +64,7 @@ public class Robot
     public DcMotor bl;
     public DcMotor br;
     //sc is spin carousel//
-     public DcMotor sc;
+    public DcMotor sc;
     public DcMotor arm1;
     public DcMotor armb;
     public Servo lgrabber;
@@ -136,7 +136,7 @@ public class Robot
         fr  = hwMap.get(DcMotor.class, "fr");
         bl  = hwMap.get(DcMotor.class, "bl");
         br  = hwMap.get(DcMotor.class, "br");
-        // sc  = hwMap.get(DcMotor.class,"sc");
+        sc  = hwMap.get(DcMotor.class,"sc");
         arm1  = hwMap.get(DcMotor.class,"arm1");
         armb  = hwMap.get(DcMotor.class,"armb");
         lgrabber = hwMap.get(Servo.class,"lgrabber");
@@ -147,7 +147,7 @@ public class Robot
         fr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         bl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         br.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        //sc.setDirection(DcMotor.Direction.FORWARD);
+        sc.setDirection(DcMotor.Direction.FORWARD);
         arm1.setDirection(DcMotor.Direction.FORWARD);
         armb.setDirection(DcMotor.Direction.FORWARD);
         lgrabber.setDirection(Servo.Direction.FORWARD);
@@ -159,7 +159,7 @@ public class Robot
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
-        // sc.setPower(0);
+        sc.setPower(0);
         arm1.setPower(0);
         armb.setPower(0);
         // Set all motors to run without encoders.

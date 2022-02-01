@@ -135,8 +135,8 @@ public class Drive extends LinearOpMode {
             //robot.testServo.setPosition(grip);
 
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
-            robot.arm1.setPower(0.1);
-            robot.armb.setPower(0.1);
+            robot.arm1.setTargetPosition(1);
+            robot.armb.setTargetPosition(1);
 
             robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
