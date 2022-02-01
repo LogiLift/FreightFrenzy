@@ -136,16 +136,13 @@ public class Drive extends LinearOpMode {
 
             robot.sc.setPower(((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0))*0.5);
 
-            robot.arm1.setTargetPostition(1);
-            robot.armb.setTargetPostition(1);
-
-            robot.arm1.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
-            robot.armb.setPower(((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 0.5);
+            robot.arm1.setPower(((gamepad1.a ? 1 : 0) - (gamepad1.b ? 1 : 0)) * 0.5);
+            robot.armb.setPower(((gamepad1.a ? 1 : 0) - (gamepad1.b ? 1 : 0)) * 0.5);
 
             robot.arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.armb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            armTargetPos += ((gamepad1.dpad_up ? 1 : 0) - (gamepad1.dpad_down ? 1 : 0)) * 5;
+            armTargetPos += ((gamepad1.a ? 1 : 0) - (gamepad1.b ? 1 : 0)) * 5;
 
             // presets for arm
             /*
@@ -157,8 +154,8 @@ public class Drive extends LinearOpMode {
             }
             */
             // clamp the arm target position
-            if(armTargetPos > 106){
-                armTargetPos = 106;
+            if(armTargetPos > 120){
+                armTargetPos = 120;
             }
             if(armTargetPos < 0) {
                 armTargetPos = 0;
@@ -176,9 +173,8 @@ public class Drive extends LinearOpMode {
 
             // close claw
             if (gamepad1.left_trigger > 0.2){
-                robot.lgrabber.setPosition(0.55);
+                robot.lgrabber.setPosition(0.45);
                 robot.rgrabber.setPosition(0.55);
-
             }
             // open claw
             else {
