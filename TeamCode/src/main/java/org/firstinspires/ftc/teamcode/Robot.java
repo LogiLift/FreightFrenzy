@@ -64,7 +64,7 @@ public class Robot
     public DcMotor bl;
     public DcMotor br;
     //sc is spin carousel//
-    // public DcMotor sc;
+     public DcMotor sc;
     public DcMotor arm1;
     public DcMotor armb;
     public Servo lgrabber;
